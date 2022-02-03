@@ -6,6 +6,8 @@ import (
 	"os"
 
 	"github.com/mathewsmacedo/go_api/app/models"
+	"github.com/mathewsmacedo/go_api/config/environment"
+	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -13,15 +15,38 @@ import (
 var connection *gorm.DB
 
 func Init() {
-	host := getEnv("PG_HOST", "127.0.0.1")
-	port := getEnv("PG_PORT", "5432")
-	database := getEnv("PG_DB", "postgres")
+	viper.SetConfigName("database")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath("./config/")
+	viper.AutomaticEnv()
+
+	err := viper.ReadInConfig()
+	if err != nil {
+		fmt.Println("fatal error config file: default \n", err)
+		os.Exit(1)
+	}
+
+	env := environment.Current()
+
+	host := viper.GetString(env + ".host")
+	port := viper.GetString(env + ".port")
+	database := viper.GetString(env + ".database")
+	password := viper.GetString(env + ".password")
+	user := viper.GetString(env + ".user")
 
 	dbinfo := fmt.Sprintf("host=%s port=%s dbname=%s sslmode=disable",
 		host,
 		port,
 		database,
 	)
+
+	if user != "" {
+		dbinfo += " user=" + user
+	}
+
+	if password != "" {
+		password += " user=" + password
+	}
 
 	db, err := gorm.Open(postgres.Open(dbinfo), &gorm.Config{})
 
@@ -39,11 +64,4 @@ func Init() {
 
 func Connection() *gorm.DB {
 	return connection
-}
-
-func getEnv(key, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok {
-		return value
-	}
-	return fallback
 }

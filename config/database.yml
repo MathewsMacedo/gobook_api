@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  database: postgres
+  host: localhost
+  port: 5432
+
+test:
+  <<: *default  
+
+development:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default
