@@ -1,0 +1,93 @@
+definitions:
+  models.Book:
+    properties:
+      author:
+        type: string
+      created_at:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+    required:
+    - author
+    - title
+    type: object
+info:
+  contact: {}
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      description: List All Books
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+      summary: Index
+      tags:
+      - books
+    post:
+      consumes:
+      - application/json
+      description: Create Book
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+      summary: Create
+      tags:
+      - books
+  /:id:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Book
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+      summary: Destroy
+      tags:
+      - books
+    get:
+      consumes:
+      - application/json
+      description: Show Book
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+      summary: Show
+      tags:
+      - books
+    patch:
+      consumes:
+      - application/json
+      description: Update Book
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Book'
+      summary: Update
+      tags:
+      - books
+swagger: "2.0"

@@ -9,12 +9,31 @@ import (
 	"github.com/mathewsmacedo/go_api/app/services/books"
 )
 
-func BookIndex(c *gin.Context) {
+// @BasePath /api/v1/books
+
+// Books swagger
+// @Summary Index
+// @Schemes
+// @Description List All Books
+// @Tags books
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Book
+// @Router / [get]
+func IndexBook(c *gin.Context) {
 	books := books.ListAll()
 	c.JSON(http.StatusOK, gin.H{"data": books})
 }
 
-func BookCreate(c *gin.Context) {
+// @Summary Create
+// @Schemes
+// @Description Create Book
+// @Tags books
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Book
+// @Router / [post]
+func CreateBook(c *gin.Context) {
 	var input models.CreateBookInput
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -27,7 +46,15 @@ func BookCreate(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": book})
 }
 
-func BookShow(c *gin.Context) {
+// @Summary Show
+// @Schemes
+// @Description Show Book
+// @Tags books
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Book
+// @Router /:id [get]
+func ShowBook(c *gin.Context) {
 	book, err := books.Details(c.Param("id"))
 
 	if err != nil {
@@ -38,7 +65,15 @@ func BookShow(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": book})
 }
 
-func BookUpdate(c *gin.Context) {
+// @Summary Update
+// @Schemes
+// @Description Update Book
+// @Tags books
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Book
+// @Router /:id [patch]
+func UpdateBook(c *gin.Context) {
 	// Validate input
 	var input models.UpdateBookInput
 
@@ -61,7 +96,15 @@ func BookUpdate(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": book})
 }
 
-func BookDestroy(c *gin.Context) {
+// @Summary Destroy
+// @Schemes
+// @Description Delete Book
+// @Tags books
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.Book
+// @Router /:id [delete]
+func DestroyBook(c *gin.Context) {
 	_, err := books.Destroy(c.Param("id"))
 
 	if err != nil {
