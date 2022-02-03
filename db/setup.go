@@ -45,7 +45,7 @@ func Init() {
 	}
 
 	if password != "" {
-		password += " user=" + password
+		dbinfo += " user=" + password
 	}
 
 	db, err := gorm.Open(postgres.Open(dbinfo), &gorm.Config{})
